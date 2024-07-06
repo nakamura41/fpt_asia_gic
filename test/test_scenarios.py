@@ -36,7 +36,7 @@ class CarSimulationCase(unittest.TestCase):
             }
         },
         {
-            "field": {"width": 6, "height": 6},
+            "field": {"width": 7, "height": 7},
             "cars": [
                 {"id": 1, "name": "A", "x": 3, "y": 1, "direction": "E", "commands": "FFLFLFLFFF"},
                 {"id": 2, "name": "B", "x": 2, "y": 4, "direction": "S", "commands": "FLFFLFFRFF"},
@@ -55,7 +55,7 @@ class CarSimulationCase(unittest.TestCase):
             }
         },
         {
-            "field": {"width": 6, "height": 6},
+            "field": {"width": 7, "height": 7},
             "cars": [
                 {"id": 1, "name": "A", "x": 3, "y": 1, "direction": "E", "commands": "FFLFLFLFFF"},
                 {"id": 2, "name": "B", "x": 2, "y": 4, "direction": "S", "commands": "FLFFFRFFFF"},
