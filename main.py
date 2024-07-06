@@ -8,6 +8,7 @@ def main():
         width, height = map(int,
                             input("Please enter the width and height of the simulation field in x y format: ").split())
         simulation = Simulation(width, height)
+        car_id = 1
         while True:
             print("Please choose from the following options:")
             print("[1] Add a car to field")
@@ -20,7 +21,8 @@ def main():
                     f"Please enter initial position of car {name} in x y Direction format: ").split()
                 x, y = int(x), int(y)
                 commands = input(f"Please enter the commands for car {name}: ")
-                car = Car(name, x, y, direction, commands)
+                car = Car(car_id, name, x, y, direction, commands)
+                car_id += 1
                 simulation.add_car(car)
                 simulation.print_car_list()
             elif option == 2:

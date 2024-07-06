@@ -9,7 +9,7 @@ class CarSimulationCase(unittest.TestCase):
         {
             "field": {"width": 10, "height": 10},
             "cars": [
-                {"name": "A", "x": 1, "y": 2, "direction": "N", "commands": "FFRFFFFRRL"}
+                {"id": 1, "name": "A", "x": 1, "y": 2, "direction": "N", "commands": "FFRFFFFRRL"}
             ],
             "expected": {
                 "car_final_states": [
@@ -21,8 +21,8 @@ class CarSimulationCase(unittest.TestCase):
         {
             "field": {"width": 10, "height": 10},
             "cars": [
-                {"name": "A", "x": 1, "y": 2, "direction": "N", "commands": "FFRFFFFRRL"},
-                {"name": "B", "x": 7, "y": 8, "direction": "W", "commands": "FFLFFFFFFF"}
+                {"id": 1, "name": "A", "x": 1, "y": 2, "direction": "N", "commands": "FFRFFFFRRL"},
+                {"id": 2, "name": "B", "x": 7, "y": 8, "direction": "W", "commands": "FFLFFFFFFF"}
             ],
             "expected": {
                 "car_final_states": [
@@ -30,17 +30,17 @@ class CarSimulationCase(unittest.TestCase):
                     'B, (5,4) S'
                 ],
                 "collisions": [
-                    ('B', 'A', (5, 4), 7),
-                    ('A', 'B', (5, 4), 7)
+                    ('A', 'B', (5, 4), 7),
+                    ('B', 'A', (5, 4), 7)
                 ]
             }
         },
         {
             "field": {"width": 6, "height": 6},
             "cars": [
-                {"name": "A", "x": 3, "y": 1, "direction": "E", "commands": "FFLFLFLFFF"},
-                {"name": "B", "x": 2, "y": 4, "direction": "S", "commands": "FLFFLFFRFF"},
-                {"name": "C", "x": 6, "y": 2, "direction": "W", "commands": "FLFRFFRFFL"}
+                {"id": 1, "name": "A", "x": 3, "y": 1, "direction": "E", "commands": "FFLFLFLFFF"},
+                {"id": 2, "name": "B", "x": 2, "y": 4, "direction": "S", "commands": "FLFFLFFRFF"},
+                {"id": 3, "name": "C", "x": 6, "y": 2, "direction": "W", "commands": "FLFRFFRFFL"}
             ],
             "expected": {
                 "car_final_states": [
@@ -49,34 +49,39 @@ class CarSimulationCase(unittest.TestCase):
                     'C, (5,1) S'
                 ],
                 "collisions": [
-                    ('C', 'A', (5, 1), 3),
-                    ('A', 'C', (5, 1), 3)
+                    ('A', 'C', (5, 1), 3),
+                    ('C', 'A', (5, 1), 3)
                 ]
             }
         },
         {
             "field": {"width": 6, "height": 6},
             "cars": [
-                {"name": "A", "x": 3, "y": 1, "direction": "E", "commands": "FFLFLFLFFF"},
-                {"name": "B", "x": 2, "y": 4, "direction": "S", "commands": "FLFFFRFFFF"},
-                {"name": "C", "x": 6, "y": 2, "direction": "W", "commands": "FLFRFFRFFL"}
+                {"id": 1, "name": "A", "x": 3, "y": 1, "direction": "E", "commands": "FFLFLFLFFF"},
+                {"id": 2, "name": "B", "x": 2, "y": 4, "direction": "S", "commands": "FLFFFRFFFF"},
+                {"id": 3, "name": "C", "x": 6, "y": 2, "direction": "W", "commands": "FLFRFFRFFL"}
             ],
             "expected": {
                 "car_final_states": [
                     'A, (5,1) N',
-                    'B, (6,5) E',
+                    'B, (5,1) S',
                     'C, (5,1) S'
                 ],
                 "collisions": [
+                    ('A', 'C', (5, 1), 3),
                     ('C', 'A', (5, 1), 3),
-                    ('A', 'C', (5, 1), 3)
+                    ('B', 'C', (5, 1), 8),
+                    ('C', 'B', (5, 1), 8)
                 ]
             }
         }
     ]
 
     def parse_car(self, car_config):
-        return Car(name=car_config["name"], x=car_config["x"], y=car_config["y"], direction=car_config["direction"],
+        return Car(id=car_config["id"],
+                   name=car_config["name"],
+                   x=car_config["x"], y=car_config["y"],
+                   direction=car_config["direction"],
                    commands=car_config["commands"])
 
     def parse_scenario(self, scenario_config):

@@ -1,7 +1,8 @@
 class Car:
     DIRECTIONS = ['N', 'E', 'S', 'W']
 
-    def __init__(self, name, x, y, direction, commands):
+    def __init__(self, id, name, x, y, direction, commands):
+        self.id = id
         self.name = name
         self.x = x
         self.y = y
@@ -11,6 +12,9 @@ class Car:
         self.initial_position = (x, y)
         self.initial_direction = direction
         self.active = True
+
+    def get_id(self):
+        return self.id
 
     def rotate_left(self):
         current_index = Car.DIRECTIONS.index(self.direction)

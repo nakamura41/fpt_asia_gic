@@ -25,20 +25,26 @@ class Simulation:
         x, y = car.get_position()
         return 0 <= x < self.width and 0 <= y < self.height
 
-    def check_collisions(self, step):
+    def get_other_car_positions(self, current_car):
         positions = {}
+        for car in self.cars:
+            if current_car.get_id() != car.get_id():
+                pos = car.get_position()
+                positions[pos] = car
+        return positions
+
+    def check_collisions(self, step):
         for car in self.cars:
             if not car.active:
                 continue
             pos = car.get_position()
-            if pos in positions:
-                other_car = positions[pos]
+            other_car_positions = self.get_other_car_positions(car)
+            if pos in other_car_positions:
+                other_car = other_car_positions[pos]
                 self.collisions.append((car.name, other_car.name, pos, step + 1))
                 self.collisions.append((other_car.name, car.name, pos, step + 1))
                 car.active = False
                 other_car.active = False
-            positions[pos] = car
-        return False
 
     def print_car_list(self):
         print("Your current list of cars are:")
