@@ -34,6 +34,44 @@ class CarSimulationCase(unittest.TestCase):
                     ('A', 'B', (5, 4), 7)
                 ]
             }
+        },
+        {
+            "field": {"width": 6, "height": 6},
+            "cars": [
+                {"name": "A", "x": 3, "y": 1, "direction": "E", "commands": "FFLFLFLFFF"},
+                {"name": "B", "x": 2, "y": 4, "direction": "S", "commands": "FLFFLFFRFF"},
+                {"name": "C", "x": 6, "y": 2, "direction": "W", "commands": "FLFRFFRFFL"}
+            ],
+            "expected": {
+                "car_final_states": [
+                    'A, (5,1) N',
+                    'B, (6,5) E',
+                    'C, (5,1) S'
+                ],
+                "collisions": [
+                    ('C', 'A', (5, 1), 3),
+                    ('A', 'C', (5, 1), 3)
+                ]
+            }
+        },
+        {
+            "field": {"width": 6, "height": 6},
+            "cars": [
+                {"name": "A", "x": 3, "y": 1, "direction": "E", "commands": "FFLFLFLFFF"},
+                {"name": "B", "x": 2, "y": 4, "direction": "S", "commands": "FLFFFRFFFF"},
+                {"name": "C", "x": 6, "y": 2, "direction": "W", "commands": "FLFRFFRFFL"}
+            ],
+            "expected": {
+                "car_final_states": [
+                    'A, (5,1) N',
+                    'B, (6,5) E',
+                    'C, (5,1) S'
+                ],
+                "collisions": [
+                    ('C', 'A', (5, 1), 3),
+                    ('A', 'C', (5, 1), 3)
+                ]
+            }
         }
     ]
 
@@ -55,15 +93,19 @@ class CarSimulationCase(unittest.TestCase):
 
         actual_collisions = simulation.get_collisions()
         expected_collisions = scenario_config["expected"]["collisions"]
+        print(f"Comparing actual_collissions: {actual_collisions} with expected_collisions: {expected_collisions}")
         assert actual_collisions == expected_collisions
 
         actual_car_final_states = simulation.get_car_final_states()
         expected_car_final_states = scenario_config["expected"]["car_final_states"]
+        print(
+            f"Comparing actual_car_final_states: {actual_car_final_states} with expected_car_final_states: {expected_car_final_states}")
         assert actual_car_final_states == expected_car_final_states
 
     def test_scenarios(self):
         for scenario_config in self.scenarios_config:
             self.parse_scenario(scenario_config=scenario_config)
+            print("---")
 
 
 if __name__ == '__main__':

@@ -10,6 +10,7 @@ class Car:
         self.command_index = 0
         self.initial_position = (x, y)
         self.initial_direction = direction
+        self.active = True
 
     def rotate_left(self):
         current_index = Car.DIRECTIONS.index(self.direction)
@@ -30,7 +31,7 @@ class Car:
             self.x -= 1
 
     def execute_command(self):
-        if self.command_index >= len(self.commands):
+        if self.command_index >= len(self.commands) or not self.active:
             return
 
         command = self.commands[self.command_index]

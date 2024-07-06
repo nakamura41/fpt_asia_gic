@@ -10,11 +10,12 @@ class Simulation:
 
     def run(self):
         steps = 0
-        while any(car.has_more_commands() for car in self.cars):
+        while any(car.has_more_commands() and car.active for car in self.cars):
             for car in self.cars:
-                if car.has_more_commands():
+                if car.has_more_commands() and car.active:
                     car.execute_command()
                     if not self.is_within_bounds(car):
+                        car.active = False
                         continue
                     if self.check_collisions(steps):
                         return
@@ -27,12 +28,15 @@ class Simulation:
     def check_collisions(self, step):
         positions = {}
         for car in self.cars:
+            if not car.active:
+                continue
             pos = car.get_position()
             if pos in positions:
                 other_car = positions[pos]
                 self.collisions.append((car.name, other_car.name, pos, step + 1))
                 self.collisions.append((other_car.name, car.name, pos, step + 1))
-                return True
+                car.active = False
+                other_car.active = False
             positions[pos] = car
         return False
 
@@ -55,6 +59,6 @@ class Simulation:
         if self.collisions:
             for collision in self.collisions:
                 print(f"- {collision[0]}, collides with {collision[1]} at {collision[2]} at step {collision[3]}")
-        else:
-            for car in self.cars:
+        for car in self.cars:
+            if car.active:
                 print(f"{car.get_final_state()}")
