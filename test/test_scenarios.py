@@ -97,15 +97,16 @@ class CarSimulationCase(unittest.TestCase):
         simulation.run()
 
         actual_collisions = simulation.get_collisions()
-        expected_collisions = scenario_config["expected"]["collisions"]
+        expected_collisions = set(scenario_config["expected"]["collisions"])
         print(f"Comparing actual_collissions: {actual_collisions} with expected_collisions: {expected_collisions}")
-        assert actual_collisions == expected_collisions
+
+        self.assertSetEqual(actual_collisions, expected_collisions)
 
         actual_car_final_states = simulation.get_car_final_states()
-        expected_car_final_states = scenario_config["expected"]["car_final_states"]
+        expected_car_final_states = set(scenario_config["expected"]["car_final_states"])
         print(
             f"Comparing actual_car_final_states: {actual_car_final_states} with expected_car_final_states: {expected_car_final_states}")
-        assert actual_car_final_states == expected_car_final_states
+        self.assertSetEqual(actual_car_final_states, expected_car_final_states)
 
     def test_scenarios(self):
         for scenario_config in self.scenarios_config:

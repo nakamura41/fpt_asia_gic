@@ -56,10 +56,10 @@ class Simulation:
         return [car.get_initial_state() for car in self.cars]
 
     def get_car_final_states(self):
-        return [car.get_final_state() for car in self.cars]
+        return set([car.get_final_state() for car in self.cars])
 
     def get_collisions(self):
-        return self.collisions
+        return set(self.collisions)
 
     def print_results(self):
         if self.collisions:
