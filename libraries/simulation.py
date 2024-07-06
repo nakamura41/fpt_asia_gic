@@ -6,7 +6,10 @@ class Simulation:
         self.collisions = []
 
     def add_car(self, car):
-        self.cars.append(car)
+        if self.is_within_bounds(car):
+            self.cars.append(car)
+        else:
+            print("This car initial position is out of bound")
 
     def run(self):
         steps = 0
