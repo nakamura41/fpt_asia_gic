@@ -70,15 +70,61 @@ After simulation, the result is:
 
 ### Scenario 5: Three Cars with Sequential Collisions
 
-In a 7 x 7 field, three cars are positioned within the boundary. Initially, two cars collide, followed by the third car colliding with the others at a much later step. You will see the following message:
+In a 7 x 7 field, three cars are positioned within the boundary. 
+```text
+Car 1: A, (3,1) E, FFLFLFLFFF
+Car 2, B, (2,4) S, FLFFFRFFFF
+Car 3, C, (6,2) W, FLFRFFRFFL
+```
+Initially, two cars collide, followed by the third car colliding with the others at a much later step. You will see the following message:
+```text
+Your current list of cars are:
+- A, (3,1) E, FFLFLFLFFF
+- B, (2,4) S, FLFFFRFFFF
+- C, (6,2) W, FLFRFFRFFL
 
-The first two scenarios follow the assignment instructions. Additionally, I have included three extra scenarios to effectively address corner cases.
+After simulation, the result is:
+- A, collides with C at (5,1) at step 3
+- C, collides with A at (5,1) at step 3
+- B, collides with A at (5,1) at step 8
+- A, collides with B at (5,1) at step 8
+- B, collides with C at (5,1) at step 8
+- C, collides with B at (5,1) at step 8
+```
+
+### Scenario 6: Three Cars, Ending Out of Bounds
+
+In a 6 x 6 field, two cars are positioned within the boundary, and one is out of bounds. 
+```text
+Car 1: A, (3,1) E, FFLFLFLFFF
+Car 2: B, (2,4) S, FLFFLFFRFF
+Car 3: C, (6,2) W, FLFRFFRFFL
+```
+
+By the end, the remaining two cars are also out of bounds. You will see the following message:
+```text
+Your current list of cars are:
+- A, (3,1) E, FFLFLFLFFF
+- B, (2,4) S, FLFFFRFFFF
+
+After simulation, the result is:
+- A, (4,-1) S
+- B, (5,-1) S
+```
+
+The first two scenarios follow the assignment instructions. Additionally, I have included four extra scenarios to effectively address corner cases.
 
 ---
 
-## How to Run the Test Scenarios:
+## How to Run:
 
-To execute the test scenarios, use the following command:
+To execute the main application, use the following command:
+```bash
+python main.py
+
+```
+
+To run the test scenarios, use the following command:
 
 ```bash
 python -m unittest

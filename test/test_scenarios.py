@@ -93,7 +93,7 @@ class CarSimulationCase(unittest.TestCase):
             }
         },
         {
-            "title": "Scenario 6: Three Cars with one car out of bound",
+            "title": "Scenario 6: Three Cars, Ending Out of Bounds",
             "field": {"width": 6, "height": 6},
             "cars": [
                 {"id": 1, "name": "A", "x": 3, "y": 1, "direction": "E", "commands": "FFLFLFLFFF"},
