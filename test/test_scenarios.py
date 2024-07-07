@@ -7,6 +7,7 @@ from libraries.simulation import Simulation
 class CarSimulationCase(unittest.TestCase):
     scenarios_config = [
         {
+            "title": "Scenario 1: Single Car Inside the Field Boundary",
             "field": {"width": 10, "height": 10},
             "cars": [
                 {"id": 1, "name": "A", "x": 1, "y": 2, "direction": "N", "commands": "FFRFFFFRRL"}
@@ -19,6 +20,7 @@ class CarSimulationCase(unittest.TestCase):
             }
         },
         {
+            "title": "Scenario 2: Two-Car Collision Within the Field Boundary",
             "field": {"width": 10, "height": 10},
             "cars": [
                 {"id": 1, "name": "A", "x": 1, "y": 2, "direction": "N", "commands": "FFRFFFFRRL"},
@@ -36,6 +38,18 @@ class CarSimulationCase(unittest.TestCase):
             }
         },
         {
+            "title": "Scenario 3: Single Car Outside the Field Boundary",
+            "field": {"width": 4, "height": 4},
+            "cars": [
+                {"id": 1, "name": "A", "x": 4, "y": 2, "direction": "N", "commands": "FFRFFFFRRL"}
+            ],
+            "expected": {
+                "car_final_states": [],
+                "collisions": []
+            }
+        },
+        {
+            "title": "Scenario 4: Three Cars with an Initial Collision",
             "field": {"width": 7, "height": 7},
             "cars": [
                 {"id": 1, "name": "A", "x": 3, "y": 1, "direction": "E", "commands": "FFLFLFLFFF"},
@@ -55,6 +69,7 @@ class CarSimulationCase(unittest.TestCase):
             }
         },
         {
+            "title": "Scenario 5: Three Cars with Sequential Collisions",
             "field": {"width": 7, "height": 7},
             "cars": [
                 {"id": 1, "name": "A", "x": 3, "y": 1, "direction": "E", "commands": "FFLFLFLFFF"},
@@ -75,6 +90,22 @@ class CarSimulationCase(unittest.TestCase):
                     ('B', 'A', (5, 1), 8),
                     ('A', 'B', (5, 1), 8),
                 ]
+            }
+        },
+        {
+            "title": "Scenario 6: Three Cars with one car out of bound",
+            "field": {"width": 6, "height": 6},
+            "cars": [
+                {"id": 1, "name": "A", "x": 3, "y": 1, "direction": "E", "commands": "FFLFLFLFFF"},
+                {"id": 2, "name": "B", "x": 2, "y": 4, "direction": "S", "commands": "FLFFFRFFFF"},
+                {"id": 3, "name": "C", "x": 6, "y": 2, "direction": "W", "commands": "FLFRFFRFFL"}
+            ],
+            "expected": {
+                "car_final_states": [
+                    'A, (4,-1) S',
+                    'B, (5,-1) S'
+                ],
+                "collisions": []
             }
         }
     ]
@@ -98,6 +129,9 @@ class CarSimulationCase(unittest.TestCase):
 
         simulation.run()
 
+        print(scenario_config["title"])
+        print('----------------------------------------------------------------------')
+
         actual_collisions = simulation.get_collisions()
         expected_collisions = set(scenario_config["expected"]["collisions"])
         print(f"Comparing actual_collissions: {actual_collisions} with expected_collisions: {expected_collisions}")
@@ -113,7 +147,7 @@ class CarSimulationCase(unittest.TestCase):
     def test_scenarios(self):
         for scenario_config in self.scenarios_config:
             self.parse_scenario(scenario_config=scenario_config)
-            print("---")
+            print('\n')
 
 
 if __name__ == '__main__':

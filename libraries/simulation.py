@@ -1,3 +1,5 @@
+from libraries.car import State
+
 class Simulation:
     def __init__(self, width, height):
         self.width = width
@@ -8,17 +10,18 @@ class Simulation:
     def add_car(self, car):
         if self.is_within_bounds(car):
             self.cars.append(car)
+            return True
         else:
-            print("This car initial position is out of bound")
+            return False
 
     def run(self):
         steps = 0
-        while any(car.has_more_commands() and car.active for car in self.cars):
+        while any(car.has_more_commands() and car.get_state() == State.ACTIVE for car in self.cars):
             for car in self.cars:
-                if car.has_more_commands() and car.active:
+                if car.has_more_commands() and car.get_state() == State.ACTIVE:
                     car.execute_command()
                     if not self.is_within_bounds(car):
-                        car.active = False
+                        car.set_state(State.OUT_OF_BOUND)
                         continue
                     if self.check_collisions(steps):
                         return
@@ -40,7 +43,7 @@ class Simulation:
 
     def check_collisions(self, step):
         for car in self.cars:
-            if not car.active:
+            if car.state != State.ACTIVE:
                 continue
             pos = car.get_position()
             other_car_positions = self.get_other_car_positions(car)
@@ -49,13 +52,14 @@ class Simulation:
                 for other_car in other_cars:
                     self.collisions.append((car.name, other_car.name, pos, step + 1))
                     self.collisions.append((other_car.name, car.name, pos, step + 1))
-                    car.active = False
-                    other_car.active = False
+                    car.set_state(State.COLLIDED)
+                    other_car.set_state(State.COLLIDED)
 
     def print_car_list(self):
-        print("Your current list of cars are:")
-        for car in self.cars:
-            print(f"- {car.get_initial_state()}")
+        if len(self.cars) > 0:
+            print("Your current list of cars are:")
+            for car in self.cars:
+                print(f"- {car.get_initial_state()}")
         print()
 
     def get_car_initial_state(self):
@@ -76,5 +80,5 @@ class Simulation:
                 step = collision[3]
                 print(f"- {car_1}, collides with {car_2} at {pos} at step {step}")
         for car in self.cars:
-            if car.active:
-                print(f"{car.get_final_state()}")
+            if car.get_state() in (State.ACTIVE, State.OUT_OF_BOUND):
+                print(f"- {car.get_final_state()}")

@@ -23,7 +23,9 @@ def main():
                 commands = input(f"Please enter the commands for car {name}: ")
                 car = Car(car_id, name, x, y, direction, commands)
                 car_id += 1
-                simulation.add_car(car)
+                add_car_status = simulation.add_car(car)
+                if not add_car_status:
+                    print(f"Car {car.name} initial position is out of bound.")
                 simulation.print_car_list()
             elif option == 2:
                 simulation.run()
