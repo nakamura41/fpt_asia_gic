@@ -70,7 +70,11 @@ class Simulation:
     def print_results(self):
         if self.collisions:
             for collision in self.collisions:
-                print(f"- {collision[0]}, collides with {collision[1]} at {collision[2]} at step {collision[3]}")
+                car_1 = collision[0]
+                car_2 = collision[1]
+                pos = f"({collision[2][0]},{collision[2][1]})"
+                step = collision[3]
+                print(f"- {car_1}, collides with {car_2} at {pos} at step {step}")
         for car in self.cars:
             if car.active:
                 print(f"{car.get_final_state()}")
