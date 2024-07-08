@@ -1,8 +1,6 @@
-# GIC Take Home Assignment
+# Auto Driving Car Simulation Solution
 
 ---
-
-## Auto Driving Car Simulation Solution
 
 This solution is designed to handle multiple scenarios:
 
